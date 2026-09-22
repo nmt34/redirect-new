@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verified Access</title>
+  <style>
+    :root {
+      --bg-1: #07111f;
+      --bg-2: #0d1b2a;
+      --card: rgba(15, 23, 42, 0.96);
+      --card-2: rgba(30, 41, 59, 0.8);
+      --line: rgba(148, 163, 184, 0.18);
+      --text: #edf2f7;
+      --muted: #a6b3c5;
+      --accent: #40d98e;
+      --accent-dark: #1b8a56;
+      --danger: #f97316;
+      --shadow: rgba(2, 6, 23, 0.7);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, rgba(64, 217, 142, 0.14), transparent 38%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .security-box {
+      width: min(92vw, 560px);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 70px var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .lock-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(64, 217, 142, 0.8);
+    }
+
+    .content {
+      padding: 28px 28px 24px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .question-box {
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 16px;
+      margin: 18px 0 16px;
+    }
+
+    .question-title {
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .question {
+      font-size: 1.02rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .answer-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+    }
+
+    .answer-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .answer-row label {
+      color: var(--text);
+      font-size: 0.96rem;
+      cursor: pointer;
+    }
+
+    .button-row {
+      margin-top: 22px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #031b10;
+      background: linear-gradient(135deg, var(--accent), #6ee7b7);
+      transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 10px 20px rgba(64, 217, 142, 0.2);
+    }
+
+    button:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      filter: grayscale(0.15);
+      box-shadow: none;
+    }
+
+    button:not(:disabled):hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .status.error {
+      color: #efb083;
+    }
+  </style>
+</head>
+<body>
+  <div class="security-box">
+    <div class="topbar">
+      <div class="lock-tag"><span class="dot"></span> Verified Access</div>
+    </div>
+
+    <div class="content">
+      <h1>Secure portal</h1>
+      <p class="subtitle">
+        This protected page requires a brief verification before continuing to the authorized panel.
+      </p>
+
+      <div class="question-box">
+        <div class="question-title">Security question</div>
+        <div class="question">Do you confirm that you are authorized to continue to this secure destination?</div>
+
+        <div class="answer-row">
+          <input type="checkbox" id="agree" />
+          <label for="agree">Yes, I confirm and want to continue.</label>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="continueBtn" type="button" disabled>Continue</button>
+      </div>
+
+      <div id="status" class="status">Please confirm the security question to continue.</div>
+    </div>
+  </div>
+
+  <script>
+    const agree = document.getElementById('agree');
+    const continueBtn = document.getElementById('continueBtn');
+    const statusText = document.getElementById('status');
+    const targetUrl = 'https://fjime6yq8a.greencloudwatch.de/l/Em-vsGezwoU';
+
+    function updateButtonState() {
+      const ready = agree.checked;
+      continueBtn.disabled = !ready;
+      if (ready) {
+        statusText.textContent = 'Ready to continue.';
+        statusText.classList.remove('error');
+      } else {
+        statusText.textContent = 'Please confirm the security question to continue.';
+        statusText.classList.remove('error');
+      }
+    }
+
+    agree.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    continueBtn.addEventListener('click', function () {
+      if (!agree.checked) {
+        statusText.textContent = 'You must confirm before continuing.';
+        statusText.classList.add('error');
+        return;
+      }
+
+      statusText.textContent = 'Redirecting...';
+      statusText.classList.remove('error');
+      window.location.href = targetUrl;
+    });
+  </script>
+</body>
+</html>
